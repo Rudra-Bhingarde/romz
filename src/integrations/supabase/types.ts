@@ -101,6 +101,8 @@ export type Database = {
         Row: {
           created_at: string
           customer_id: string | null
+          customer_name: string | null
+          customer_phone: string | null
           id: string
           restaurant_id: string
           status: Database["public"]["Enums"]["order_status"]
@@ -111,6 +113,8 @@ export type Database = {
         Insert: {
           created_at?: string
           customer_id?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
           id?: string
           restaurant_id: string
           status?: Database["public"]["Enums"]["order_status"]
@@ -121,6 +125,8 @@ export type Database = {
         Update: {
           created_at?: string
           customer_id?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
           id?: string
           restaurant_id?: string
           status?: Database["public"]["Enums"]["order_status"]
