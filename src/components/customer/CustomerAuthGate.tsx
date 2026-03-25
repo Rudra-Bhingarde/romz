@@ -1,40 +1,32 @@
 import { useState } from "react";
-import { signIn, signUp } from "@/services/supabaseService";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { toast } from "sonner";
 import { ShoppingBag } from "lucide-react";
+
+export interface CustomerInfo {
+  name: string;
+  phone: string;
+}
 
 interface CustomerAuthGateProps {
   restaurantName: string;
   tableNumber: string;
   children: React.ReactNode;
-  user: any;
+  onSubmit: (info: CustomerInfo) => void;
+  customerInfo: CustomerInfo | null;
 }
 
-export default function CustomerAuthGate({ restaurantName, tableNumber, children, user }: CustomerAuthGateProps) {
-  const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+export default function CustomerAuthGate({ restaurantName, tableNumber, children, onSubmit, customerInfo }: CustomerAuthGateProps) {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
 
-  if (user) return <>{children}</>;
+  if (customerInfo) return <>{children}</>;
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    const { error } = isLogin
-      ? await signIn(email, password)
-      : await signUp(email, password);
-    setLoading(false);
-
-    if (error) {
-      toast.error(error.message);
-    } else if (!isLogin) {
-      toast.success("Account created! Check your email to confirm.");
-    }
+    onSubmit({ name: name.trim(), phone: phone.trim() });
   };
 
   return (
@@ -48,48 +40,39 @@ export default function CustomerAuthGate({ restaurantName, tableNumber, children
             {restaurantName}
           </CardTitle>
           <CardDescription>
-            {isLogin
-              ? `Sign in to order from Table ${tableNumber}`
-              : `Create an account to place your order`}
+            Enter your details to order from Table {tableNumber}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="customer-email">Email</Label>
+              <Label htmlFor="customer-name">Your Name</Label>
               <Input
-                id="customer-email"
-                type="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                id="customer-name"
+                type="text"
+                placeholder="John Doe"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 required
+                maxLength={100}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="customer-password">Password</Label>
+              <Label htmlFor="customer-phone">Phone Number</Label>
               <Input
-                id="customer-password"
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                id="customer-phone"
+                type="tel"
+                placeholder="+91 98765 43210"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 required
-                minLength={6}
+                maxLength={20}
               />
             </div>
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Loading..." : isLogin ? "Sign In" : "Create Account"}
+            <Button type="submit" className="w-full">
+              View Menu
             </Button>
           </form>
-          <button
-            className="w-full text-center text-sm text-muted-foreground mt-4 hover:text-primary transition-colors"
-            onClick={() => setIsLogin(!isLogin)}
-          >
-            {isLogin
-              ? "Don't have an account? Sign up"
-              : "Already have an account? Sign in"}
-          </button>
         </CardContent>
       </Card>
     </div>
