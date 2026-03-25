@@ -114,7 +114,8 @@ export const createOrder = async (
   tableId: string,
   totalAmount: number,
   items: { menu_item_id: string; quantity: number }[],
-  customerId: string
+  customerName: string,
+  customerPhone: string
 ) => {
   const { data: order, error: orderError } = await supabase
     .from("orders")
@@ -122,7 +123,8 @@ export const createOrder = async (
       restaurant_id: restaurantId,
       table_id: tableId,
       total_amount: totalAmount,
-      customer_id: customerId,
+      customer_name: customerName,
+      customer_phone: customerPhone,
     } as any)
     .select()
     .single();
