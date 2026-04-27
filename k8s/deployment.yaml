@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: orderly-eats
-        image: rudrabhingarde/romz:v2
+        image: rudrabhingarde/romz:v1
         ports:
         - containerPort: 80
 ---
