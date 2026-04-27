@@ -36,7 +36,7 @@ export default function AuthPage() {
             <UtensilsCrossed className="w-7 h-7 text-primary" />
           </div>
           <CardTitle className="text-2xl font-display">
-            {isLogin ? "Welcome back" : "Get started"}
+            {isLogin ? "Welcome back to ROMZ" : "Get started"}
           </CardTitle>
           <CardDescription>
             {isLogin
