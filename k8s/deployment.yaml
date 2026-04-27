@@ -1,4 +1,4 @@
-apiVersion: apps/v2
+apiVersion: apps/v3
 kind: Deployment
 metadata:
   name: orderly-eats-deployment
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: orderly-eats
-        image: rudrabhingarde/romz:v2
+        image: rudrabhingarde/romz:v3
         ports:
         - containerPort: 80
 ---
